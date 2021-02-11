@@ -16,7 +16,7 @@ export default class RoomPage extends Component {
         this.handleLeaveRoomButtonPressed = this.handleLeaveRoomButtonPressed.bind(this);
     }
 
-    getRoomDetails() {
+    getRoomDetails = () => {
         fetch('/api/get-room' + '?code=' + this.roomCode)
             .then((response) => {
                 if (!response.ok) {
@@ -61,7 +61,7 @@ export default class RoomPage extends Component {
                         votesToSkip={this.state.votesToSkip} 
                         guestCanPause={this.state.guestCanPause} 
                         roomCode={this.roomCode}
-                        updateCallback={() => {}}>
+                        updateCallback={this.getRoomDetails}>
                     </CreateRoomPage>
                 </Grid>
                 <Grid item xs={12}>
