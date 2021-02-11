@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Grid, Typography } from "@material-ui/core";
+import CreateRoomPage from './CreateRoomPage';
 
 export default class RoomPage extends Component {
     constructor(props) {
@@ -8,6 +9,7 @@ export default class RoomPage extends Component {
             votesToSkip: 2,
             guestCanPause: false,
             isHost: false,
+            showSettings: false,
         };
         this.roomCode = this.props.match.params.roomCode;
         this.getRoomDetails();
@@ -43,7 +45,51 @@ export default class RoomPage extends Component {
         });
     }
 
+    handleShowSettings = (value) => {
+        this.setState({
+            showSettings: value,
+        });
+    }
+
+    renderSettings = () => {
+        return (
+            <Grid container spacing={1} align="center">
+
+                <Grid item xs={12}>
+                    <CreateRoomPage 
+                        update={true} 
+                        votesToSkip={this.state.votesToSkip} 
+                        guestCanPause={this.state.guestCanPause} 
+                        roomCode={this.roomCode}
+                        updateCallback={() => {}}>
+                    </CreateRoomPage>
+                </Grid>
+                <Grid item xs={12}>
+                    <Button variant="contained" color="secondary" onClick={() => this.handleShowSettings(false)}>
+                        Close
+                    </Button>
+                </Grid>
+
+            </Grid>
+        );
+    }
+
+    renderSettingsButton = () => {
+        return (
+            <Grid item xs={12}>
+                <Button variant="contained" color="primary" onClick={() => this.handleShowSettings(true)}>
+                    Settings
+                </Button>
+            </Grid>
+        );
+    }
+
     render() {
+
+        if (this.state.showSettings) {
+            return this.renderSettings();
+        }
+
         return (
             <Grid container spacing={1} align="center">
 
@@ -60,23 +106,16 @@ export default class RoomPage extends Component {
                     <Typography variant="h6" component="h6">Is Host: {this.state.isHost.toString()}</Typography>
                 </Grid>
 
+                {this.state.isHost ? this.renderSettingsButton() : null}
+
                 <Grid item xs={12}>
-                    <Button variant="contained" color="secondary" onClick= { this.handleLeaveRoomButtonPressed }>
+                    <Button variant="contained" color="secondary" onClick={this.handleLeaveRoomButtonPressed}>
                         Leave Room
                     </Button>
                 </Grid>
 
             </Grid>
 
-
-            /*
-            <div>
-                <h3>{ this.roomCode }</h3>
-                <p>Votes: {this.state.votesToSkip}</p>
-                <p>Guest can pause: {this.state.guestCanPause.toString()}</p>
-                <p>Host: {this.state.isHost.toString()}</p>
-            </div>
-            */
         );
     }
 
