@@ -17,6 +17,7 @@ export default class HomePage extends Component {
         this.state = {
             roomCode: null,
         };
+        this.clearRoomCode = this.clearRoomCode.bind(this);
     }
 
     async componentDidMount() {
@@ -56,18 +57,30 @@ export default class HomePage extends Component {
         );
     }
 
+    clearRoomCode() {
+        this.setState({
+            roomCode: null,
+        });
+    }
+
     render() {
         return (
             <Router>
                 <Switch>
+
                     <Route path='/join' component={JoinRoomPage} />
                     <Route path='/create' component={CreateRoomPage} />
-                    <Route path='/room/:roomCode' component={RoomPage} />
+                    <Route 
+                        path='/room/:roomCode' 
+                        render={(props) => {
+                            return <RoomPage {...props} leaveRoomCallback={this.clearRoomCode} />;
+                        }} 
+                    />
 
-                    // If user has a room code stored in state, redirect to room, else go to home page
                     <Route path='/' render={() => {
                         return this.state.roomCode ? (<Redirect to={`/room/${this.state.roomCode}`} />) : this.renderHomePage();
                     }} />
+
                 </Switch>
             </Router>
         );

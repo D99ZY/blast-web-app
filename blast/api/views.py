@@ -12,6 +12,7 @@ class RoomView(generics.ListAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
 
+
 class GetRoom(APIView):
     serializer_class = RoomSerializer
     lookup_url_kwarg = 'code'
@@ -31,6 +32,7 @@ class GetRoom(APIView):
                 return Response ({'Room Not Found': 'Invalid Room Code.'}, status=status.HTTP_404_NOT_FOUND)
         
         return Response({'Bad Request': 'Code Parameter Not Found In Request'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class JoinRoom(APIView):
 
@@ -55,6 +57,28 @@ class JoinRoom(APIView):
             return Response({'Bad Request': 'Invalid Room Code'}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'Bad Request': 'Invalid Post Data, Did Not Find A Code Key'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LeaveRoom(APIView):
+
+    def post(self, request, format=None):
+
+        # If user is in room
+        if 'room_code' in self.request.session:
+            
+            # Remove user from room
+            self.request.session.pop('room_code')
+
+            # Check if user is host, if so delete room
+            host_id = self.request.session.session_key
+            room_results = Room.objects.filter(host=host_id)
+
+            if len(room_results) > 0:
+                room = room_results[0]
+                room.delete()
+
+        return Response({'Message': 'Success'}, status=status.HTTP_200_OK)
+
 
 class CreateRoomView(APIView):
     
@@ -91,6 +115,7 @@ class CreateRoomView(APIView):
                 return Response(RoomSerializer(room).data, status=status.HTTP_201_CREATED)
 
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserInRoom(APIView):
     def get(self, request, format=None):
