@@ -128,6 +128,7 @@ export default class CreateRoomPage extends Component {
     
                         {this.state.successMsg != "" ? (
                         <Alert
+                            style={{width:'50%'}}
                             severity="success"
                             onClose={() => {
                             this.setState({ successMsg: "" });
@@ -139,6 +140,7 @@ export default class CreateRoomPage extends Component {
                         ) : (
                             
                         <Alert
+                            style={{width:'50%'}}
                             severity="error"
                             onClose={() => {
                             this.setState({ errorMsg: "" });
