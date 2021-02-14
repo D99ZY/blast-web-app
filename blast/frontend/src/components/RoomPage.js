@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Grid, Typography } from "@material-ui/core";
 import CreateRoomPage from './CreateRoomPage';
+import MusicPlayer from "./MusicPlayer";
 
 export default class RoomPage extends Component {
     constructor(props) {
@@ -11,10 +12,20 @@ export default class RoomPage extends Component {
             isHost: false,
             showSettings: false,
             spotifyAuthenticated: false,
+            song: {},
         };
         this.roomCode = this.props.match.params.roomCode;
-        this.getRoomDetails();
         this.handleLeaveRoomButtonPressed = this.handleLeaveRoomButtonPressed.bind(this);
+        this.getCurrentSong = this.getCurrentSong.bind(this);
+        this.getRoomDetails();
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(this.getCurrentSong, 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     getRoomDetails = () => {
@@ -47,14 +58,29 @@ export default class RoomPage extends Component {
                 // If spotifyAuthenticated is false
                 if (!data.status) {
                     fetch('/spotify/get-auth-url')
-                    .then((response) => response.json())
-                    .then((data) => {
-                        // Redirect to Spotify authorize page
-                        window.location.replace(data.url);
-                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            // Redirect to Spotify authorize page
+                            window.location.replace(data.url);
+                        })
                 }
             })
 
+    }
+
+    getCurrentSong() {
+        fetch("/spotify/current-song")
+            .then((response) => {
+                if (!response.ok) {
+                    return {};
+                } else {
+                    return response.json();
+                }
+            })
+            .then((data) => {
+                this.setState({ song: data });
+                console.log(data);
+            });
     }
 
     handleLeaveRoomButtonPressed() {
@@ -79,10 +105,10 @@ export default class RoomPage extends Component {
             <Grid container spacing={1} align="center">
 
                 <Grid item xs={12}>
-                    <CreateRoomPage 
-                        update={true} 
-                        votesToSkip={this.state.votesToSkip} 
-                        guestCanPause={this.state.guestCanPause} 
+                    <CreateRoomPage
+                        update={true}
+                        votesToSkip={this.state.votesToSkip}
+                        guestCanPause={this.state.guestCanPause}
                         roomCode={this.roomCode}
                         updateCallback={this.getRoomDetails}>
                     </CreateRoomPage>
@@ -119,15 +145,8 @@ export default class RoomPage extends Component {
                 <Grid item xs={12}>
                     <Typography variant="h4" component="h4">Code: {this.roomCode}</Typography>
                 </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="h6" component="h6">Total Votes To Skip: {this.state.votesToSkip}</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="h6" component="h6">Guest Can Pause: {this.state.guestCanPause.toString()}</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Typography variant="h6" component="h6">Is Host: {this.state.isHost.toString()}</Typography>
-                </Grid>
+
+                <MusicPlayer {...this.state.song} />
 
                 {this.state.isHost ? this.renderSettingsButton() : null}
 
