@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import {
-  Grid,
-  Typography,
-  Card,
-  IconButton,
-  LinearProgress,
+    Grid,
+    Typography,
+    Card,
+    IconButton,
+    LinearProgress,
 } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
@@ -19,7 +19,7 @@ export default class MusicPlayer extends Component {
     pauseSong() {
         const requestOptions = {
             method: 'PUT',
-            headers: {'Content-Type': 'applications/json'},
+            headers: { 'Content-Type': 'applications/json' },
         };
         fetch('/spotify/pause', requestOptions);
     }
@@ -27,9 +27,17 @@ export default class MusicPlayer extends Component {
     playSong() {
         const requestOptions = {
             method: 'PUT',
-            headers: {'Content-Type': 'applications/json'},
+            headers: { 'Content-Type': 'applications/json' },
         };
         fetch('/spotify/play', requestOptions);
+    }
+
+    skipSong() {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'applications/json' },
+        };
+        fetch('/spotify/skip', requestOptions);
     }
 
     render() {
@@ -53,18 +61,21 @@ export default class MusicPlayer extends Component {
                         </Typography>
 
                         <div>
-                            <IconButton 
-                                onClick={() => { 
+                            <IconButton
+                                onClick={() => {
                                     this.props.is_playing ? this.pauseSong() : this.playSong()
                                 }}
                             >
                                 {this.props.is_playing ? <PauseIcon /> : <PlayArrowIcon />}
                             </IconButton>
-                            <IconButton>
+                            <IconButton onClick={() => { this.skipSong() }}>
                                 <SkipNextIcon />
                             </IconButton>
+                            <Typography color="textSecondary" varient="subtitle1">
+                                {this.props.votes} / {this.props.votes_needed}
+                            </Typography>
                         </div>
-                        
+
                     </Grid>
 
                 </Grid>

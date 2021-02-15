@@ -1,4 +1,4 @@
-from .models import SpotifyToken
+from .models import SpotifyToken, Vote
 from django.utils import timezone
 from datetime import timedelta
 from .credentials import CLIENT_SECRET, CLIENT_ID
@@ -87,5 +87,9 @@ def play_song(session_id):
 
 def pause_song(session_id):
     return execute_spotify_api_request(session_id, "player/pause", put_=True)
+
+
+def skip_song(session_id):
+    return execute_spotify_api_request(session_id, "player/next", post_=True)
 
 
