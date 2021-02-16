@@ -40,8 +40,56 @@ export default class MusicPlayer extends Component {
         fetch('/spotify/skip', requestOptions);
     }
 
+    renderDefault() {
+
+        return (
+
+            <Card>
+                <Grid container alignItems="center">
+
+                    <Grid item align="center" xs={4}>
+                        <img src={"/static/images/no_song.png"} height="100%" width="100%" />
+                    </Grid>
+
+                    <Grid item align="center" xs={8}>
+
+                        <Typography component="h5" varient="h5">
+                            {"No Song Selected"}
+                        </Typography>
+
+                        <Typography color="textSecondary" varient="subtitle1">
+                            {"Select Song"}
+                        </Typography>
+
+                        <div>
+                            <IconButton>
+                                {<PlayArrowIcon />}
+                            </IconButton>
+                            <IconButton>
+                                <SkipNextIcon />
+                            </IconButton>
+                        </div>
+
+                    </Grid>
+
+                </Grid>
+
+                <LinearProgress variant="determinate" value={0} />
+
+            </Card>
+            
+        );
+
+    }
+
     render() {
+
+        if (this.props.title == null) {
+            return this.renderDefault()
+        }
+
         const songProgress = (this.props.time / this.props.duration) * 100;
+
         return (
             <Card>
                 <Grid container alignItems="center">
