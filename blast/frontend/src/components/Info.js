@@ -18,7 +18,7 @@ export default function Info(props) {
     function renderAppDescription() {
 
         let title = "What is blast?";
-        let content = "Blast is an easy and fair way of letting your friends choose the music at your party. " + 
+        let content = "With blast you have an easy and fair way of letting your friends choose the music at your party. " + 
             "Simply put on a spotify playlist and let your friends vote when to skip a song.";
 
         return (
@@ -67,7 +67,7 @@ export default function Info(props) {
             "After signing in to your Spotify account, decide how many of your friends need to vote before a song is skipped. " +
             "Additionally, you can choose whether or not your friends are able to pause the music.";
     
-        let content2 = "Once your room has been created, simply share your room code with your friends.";
+        let content2 = "Once your room has been created, simply share your unique 6 letter room code with your friends.";
 
         return (
             <Grid container spacing={3} align='center'>
