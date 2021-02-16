@@ -42,9 +42,24 @@ export default class MusicPlayer extends Component {
 
     renderDefault() {
 
+        var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+        let cardStyle;
+
+        if (screenWidth < 960) {
+            cardStyle = {
+                width: '80vw',
+            }
+        }
+        else {
+            cardStyle = {
+                width: '40vw',
+            }
+        }
+
         return (
 
-            <Card>
+            <Card style={cardStyle} variant="outlined">
                 <Grid container alignItems="center">
 
                     <Grid item align="center" xs={4}>
@@ -90,8 +105,23 @@ export default class MusicPlayer extends Component {
 
         const songProgress = (this.props.time / this.props.duration) * 100;
 
+        var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+        let cardStyle;
+
+        if (screenWidth < 960) {
+            cardStyle = {
+                width: '80vw',
+            }
+        }
+        else {
+            cardStyle = {
+                width: '40vw',
+            }
+        }
+
         return (
-            <Card>
+            <Card style={cardStyle} variant="outlined">
                 <Grid container alignItems="center">
 
                     <Grid item align="center" xs={4}>

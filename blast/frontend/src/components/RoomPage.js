@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button, Grid, Typography, Card, Box } from "@material-ui/core";
 import CreateRoomPage from './CreateRoomPage';
 import MusicPlayer from "./MusicPlayer";
 
@@ -101,25 +101,49 @@ export default class RoomPage extends Component {
     }
 
     renderSettings = () => {
+
+        var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+        let cardStyle;
+
+        if (screenWidth < 960) {
+            cardStyle = {
+                width: '80vw',
+            }
+        }
+        else {
+            cardStyle = {
+                width: '30vw',
+            }
+        }
+
         return (
-            <Grid container spacing={1} align="center">
+            
+            <Card style={cardStyle} variant="outlined">
 
-                <Grid item xs={12}>
-                    <CreateRoomPage
-                        update={true}
-                        votesToSkip={this.state.votesToSkip}
-                        guestCanPause={this.state.guestCanPause}
-                        roomCode={this.roomCode}
-                        updateCallback={this.getRoomDetails}>
-                    </CreateRoomPage>
-                </Grid>
-                <Grid item xs={12}>
-                    <Button variant="contained" color="secondary" onClick={() => this.handleShowSettings(false)}>
-                        Close
-                    </Button>
+                <Grid container spacing={1} align="center">
+
+                    <Grid item xs={12}>
+                        <CreateRoomPage
+                            update={true}
+                            votesToSkip={this.state.votesToSkip}
+                            guestCanPause={this.state.guestCanPause}
+                            roomCode={this.roomCode}
+                            updateCallback={this.getRoomDetails}>
+                        </CreateRoomPage>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box my={2}>
+                            <Button variant="contained" color="secondary" onClick={() => this.handleShowSettings(false)}>
+                                Close
+                            </Button>
+                        </Box>
+                    </Grid>
+
                 </Grid>
 
-            </Grid>
+            </Card>
+            
         );
     }
 
@@ -139,24 +163,49 @@ export default class RoomPage extends Component {
             return this.renderSettings();
         }
 
+        var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+        let cardStyle;
+
+        if (screenWidth < 960) {
+            cardStyle = {
+                width: '90vw',
+            }
+        }
+        else {
+            cardStyle = {
+                width: '50vw',
+            }
+        }
+
         return (
-            <Grid container spacing={1} align="center">
+            <Card style={cardStyle} variant="outlined">
+                <Grid container spacing={1} align="center">
 
-                <Grid item xs={12}>
-                    <Typography variant="h4" component="h4">Code: {this.roomCode}</Typography>
+                    <Grid item xs={12}>
+                        <Box mt={4}>
+                            <Typography variant="h4" component="h4">Code: {this.roomCode}</Typography>
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <Box mb={2}>
+                            <MusicPlayer {...this.state.song} />
+                        </Box>
+                    </Grid>
+
+                    {this.state.isHost ? this.renderSettingsButton() : null}
+
+                    <Grid item xs={12}>
+                        <Box mb={2}>
+                            <Button variant="contained" color="secondary" onClick={this.handleLeaveRoomButtonPressed}>
+                                Leave Room
+                            </Button>
+                        </Box>
+                    </Grid>
+
                 </Grid>
-
-                <MusicPlayer {...this.state.song} />
-
-                {this.state.isHost ? this.renderSettingsButton() : null}
-
-                <Grid item xs={12}>
-                    <Button variant="contained" color="secondary" onClick={this.handleLeaveRoomButtonPressed}>
-                        Leave Room
-                    </Button>
-                </Grid>
-
-            </Grid>
+            </Card>
 
         );
     }

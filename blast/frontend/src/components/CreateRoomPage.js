@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import {
     Button, Grid, Typography, TextField,
     FormHelperText, FormControl, Radio,
-    RadioGroup, FormControlLabel, Collapse
+    RadioGroup, FormControlLabel, Collapse,
+    Card, Box,
 } from '@material-ui/core';
 import Alert from "@material-ui/lab/Alert";
 import { Link } from "react-router-dom";
+import RoomPage from "./RoomPage";
 
 export default class CreateRoomPage extends Component {
 
@@ -93,11 +95,15 @@ export default class CreateRoomPage extends Component {
                     </Button>
                 </Grid>
 
+                
                 <Grid item xs={12}>
-                    <Button color="secondary" variant="contained" to="/" component={Link}>
-                        Back
-                    </Button>
-                </Grid>
+                    <Box mb={4}>
+                        <Button color="secondary" variant="contained" to="/" component={Link}>
+                            Back
+                        </Button>
+                    </Box>
+                </Grid> 
+                
 
             </Grid>
         );
@@ -105,113 +111,160 @@ export default class CreateRoomPage extends Component {
 
     renderUpdateButtons() {
         return (
-            <Grid item xs={12} align="center">
-                <Button color="primary" variant="contained" onClick={this.handleUpdateRoomButtonPressed}>
-                    Update Room
-                </Button>
+
+            <Grid container spacing={1} align="center">
+                <Grid item xs={12} align="center">
+                    <Button color="primary" variant="contained" onClick={this.handleUpdateRoomButtonPressed}>
+                        Update Room
+                    </Button>
+                </Grid>
             </Grid>
         );
     }
 
-    render() {
-
+    renderTemplate() {
+        
         const title = this.props.update ? "Update Room" : "Create a Room";
 
         return (
-            <Grid container spacing={1}>
 
-                <Grid item xs={12} align="center">
-                    
-                    <Collapse
-                        in={this.state.errorMsg != "" || this.state.successMsg != ""}
-                    >
-    
-                        {this.state.successMsg != "" ? (
-                        <Alert
-                            style={{width:'50%'}}
-                            severity="success"
-                            onClose={() => {
-                            this.setState({ successMsg: "" });
-                            }}
+                <Grid container spacing={2} align="center">
+
+                    <Grid item xs={12} align="center">
+                        
+                        <Collapse
+                            in={this.state.errorMsg != "" || this.state.successMsg != ""}
                         >
-                            {this.state.successMsg}
-                        </Alert>
+        
+                            {this.state.successMsg != "" ? (
+                            <Alert
+                                style={{width:'50%'}}
+                                severity="success"
+                                onClose={() => {
+                                this.setState({ successMsg: "" });
+                                }}
+                            >
+                                {this.state.successMsg}
+                            </Alert>
 
-                        ) : (
-                            
-                        <Alert
-                            style={{width:'50%'}}
-                            severity="error"
-                            onClose={() => {
-                            this.setState({ errorMsg: "" });
-                            }}
-                        >
-                            {this.state.errorMsg}
-                        </Alert>
-                        )}
-    
-                    </Collapse>
-    
-                </Grid>
+                            ) : (
+                                
+                            <Alert
+                                style={{width:'50%'}}
+                                severity="error"
+                                onClose={() => {
+                                this.setState({ errorMsg: "" });
+                                }}
+                            >
+                                {this.state.errorMsg}
+                            </Alert>
+                            )}
+        
+                        </Collapse>
+        
+                    </Grid>
 
-                <Grid item xs={12} align="center">
-                    <Typography component="h4" variant="h4">
-                        {title}
-                    </Typography>
-                </Grid>
+                    <Grid item xs={12} align="center">
+                        <Box mt={2}>
+                            <Typography component="h4" variant="h4">
+                                {title}
+                            </Typography>
+                        </Box>
+                    </Grid>
 
-                <Grid item xs={12} align="center">
+                    <Grid item xs={12} align="center">
 
-                    <FormControl component="fieldset">
-                        <FormHelperText>
-                            <div align="center">
-                                Guest Control of Playback State
-                            </div>
-                        </FormHelperText>
+                        <FormControl component="fieldset">
+                            <FormHelperText>
+                                <div align="center">
+                                    Guest Control of Playback State
+                                </div>
+                            </FormHelperText>
 
-                        <RadioGroup row defaultValue={this.props.guestCanPause.toString()} onChange={this.handleGuestCanPauseChange}>
-                            <FormControlLabel
-                                value="true"
-                                control={<Radio color="primary" />}
-                                label="Play/Pause"
-                                labelPlacement="bottom"
+                            <RadioGroup style={{ display: 'flex' }} row defaultValue={this.props.guestCanPause.toString()} onChange={this.handleGuestCanPauseChange}>
+                                <FormControlLabel
+                                    value="true"
+                                    control={<Radio color="primary" />}
+                                    label="Play/Pause"
+                                    labelPlacement="bottom"
+                                    align="center"
+                                />
+                                <FormControlLabel
+                                    value="false"
+                                    control={<Radio color="secondary" />}
+                                    label="No Control"
+                                    labelPlacement="bottom"
+                                    align="center"
+                                />
+                            </RadioGroup>
+                        </FormControl>
+
+                    </Grid>
+
+                    <Grid item xs={12} align="center">
+
+                        <FormControl>
+                            <TextField
+                                required={true}
+                                onChange={this.handleVotesChange}
+                                type="number"
+                                defaultValue={this.state.votesToSkip}
+                                inputProps={{
+                                    min: 1,
+                                    style: { textAlign: "center" },
+                                }}
                             />
-                            <FormControlLabel
-                                value="false"
-                                control={<Radio color="secondary" />}
-                                label="No Control"
-                                labelPlacement="bottom"
-                            />
-                        </RadioGroup>
-                    </FormControl>
+                            <FormHelperText>
+                                <div align="center">
+                                    Votes Required To Skip Song
+                                </div>
+                            </FormHelperText>
+                        </FormControl>
+
+                    </Grid>
+
+                    {this.props.update ? this.renderUpdateButtons() : this.renderCreateButtons()}
 
                 </Grid>
 
-                <Grid item xs={12} align="center">
-
-                    <FormControl>
-                        <TextField
-                            required={true}
-                            onChange={this.handleVotesChange}
-                            type="number"
-                            defaultValue={this.state.votesToSkip}
-                            inputProps={{
-                                min: 1,
-                                style: { textAlign: "center" },
-                            }}
-                        />
-                        <FormHelperText>
-                            <div align="center">
-                                Votes Required To Skip Song
-                            </div>
-                        </FormHelperText>
-                    </FormControl>
-
-                </Grid>
-
-                {this.props.update ? this.renderUpdateButtons() : this.renderCreateButtons()}
-
-            </Grid>
         );
+
+    }
+
+    render() {
+
+        if (this.props.update) {
+
+            return (
+                this.renderTemplate()
+            );
+
+        }
+        else {
+
+            var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+        let cardStyle;
+
+        if (screenWidth < 960) {
+            cardStyle = {
+                width: '80vw',
+            }
+        }
+        else {
+            cardStyle = {
+                width: '30vw',
+            }
+        }
+    
+            return (
+                <Card style={cardStyle} variant="outlined">
+    
+                    {this.renderTemplate()}
+    
+                </Card>
+            );
+
+        }  
     }
 }

@@ -4,9 +4,9 @@ import {
     Switch, 
     Route, 
     Link, 
-    Redirect, 
+    Redirect,
 } from 'react-router-dom';
-import { Button, Grid, Typography, ButtonGroup } from "@material-ui/core";
+import { Button, Grid, Typography, ButtonGroup, Card, Box } from "@material-ui/core";
 import JoinRoomPage from "./JoinRoomPage";
 import CreateRoomPage from "./CreateRoomPage";
 import RoomPage from "./RoomPage";
@@ -33,39 +33,62 @@ export default class HomePage extends Component {
     }
 
     renderHomePage() {
+        
+        var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+        let cardStyle;
+
+        if (screenWidth < 960) {
+            cardStyle = {
+                width: '80vw',
+            }
+        }
+        else {
+            cardStyle = {
+                width: '40vw',
+            }
+        }
+        
         return (
-            <Grid container spacing={3} align="center">
+            
+            <Card style={cardStyle} variant="outlined">
+                <Grid container spacing={3} align="center">
 
-                <Grid item xs={12}>
-                    <Typography variant="h1" component="h1">
-                        blast
-                    </Typography>
+                    <Grid item xs={12}>
+                        <Box mt={4}>
+                            <Typography variant="h1" component="h1">
+                                blast
+                            </Typography>
+                        </Box>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <ButtonGroup disableElevation variant="contained" color="primary">
+
+                            <Button color="primary" to="/join" component={ Link }>
+                                Join a Room
+                            </Button>     
+                            <Button color="secondary" to="/create" component={ Link }>
+                                Create a Room
+                            </Button>
+
+                        </ButtonGroup>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <ButtonGroup disableElevation color="primary">
+
+                            <Box mb={2}>
+                                <Button color="default" to="/info" component={ Link }>
+                                    Info
+                                </Button>
+                            </Box>
+
+                        </ButtonGroup>
+                    </Grid>
+
                 </Grid>
-
-                <Grid item xs={12}>
-                    <ButtonGroup disableElevation variant="contained" color="primary">
-
-                        <Button color="primary" to="/join" component={ Link }>
-                            Join a Room
-                        </Button>     
-                        <Button color="secondary" to="/create" component={ Link }>
-                            Create a Room
-                        </Button>
-
-                    </ButtonGroup>
-                </Grid>
-
-                <Grid item xs={12}>
-                    <ButtonGroup disableElevation color="primary">
-
-                        <Button color="default" to="/info" component={ Link }>
-                            Info
-                        </Button>
-
-                    </ButtonGroup>
-                </Grid>
-
-            </Grid>
+            </Card>
         );
     }
 
