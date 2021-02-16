@@ -58,7 +58,7 @@ export default class MusicPlayer extends Component {
                         </Typography>
 
                         <Typography color="textSecondary" varient="subtitle1">
-                            {"Select Song"}
+                            {"Start playing a song on Spotify"}
                         </Typography>
 
                         <div>
