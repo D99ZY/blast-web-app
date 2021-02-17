@@ -1,8 +1,12 @@
 from .models import SpotifyToken, Vote
 from django.utils import timezone
 from datetime import timedelta
-from .credentials import CLIENT_SECRET, CLIENT_ID
 from requests import post, put, get
+from decouple import config
+
+
+CLIENT_SECRET = config('CLIENT_SECRET')
+CLIENT_ID = config('CLIENT_ID')
 
 
 BASE_URL = 'https://api.spotify.com/v1/me/'

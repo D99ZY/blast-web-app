@@ -1,6 +1,4 @@
 from django.shortcuts import render, redirect
-#from requests.models import Response
-from .credentials import REDIRECT_URI, CLIENT_ID, CLIENT_SECRET
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -8,6 +6,13 @@ from requests import Request, post
 from .util import *
 from api.models import Room
 from .models import Vote
+from decouple import config
+
+
+CLIENT_SECRET = config('CLIENT_SECRET')
+CLIENT_ID = config('CLIENT_ID')
+REDIRECT_URI = config('REDIRECT_URI')
+
 
 
 # Create your views here.
