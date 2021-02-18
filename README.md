@@ -1,3 +1,9 @@
+# Tech stack
+This project was built using Python Django and React JS and makes use of the Spotify API. 
+
+Additionally, this app implements a PostgreSQL database and is deployed on Heroku.
+
+
 # What is blast?
 With blast you have an easy and fair way of letting your friends choose the music at your party. Simply put on a spotify playlist and let your friends vote when to skip a song.
 
@@ -11,9 +17,6 @@ Once the party host has created a room, just ask for the room code. Join the roo
 
 ![Song Page Screenshot](frontend/static/images/listen_large.png?raw=true "Song")
 
-
-# Tech stack
-This project was built using Python Django and React JS and makes use of the Spotify API. Additionally, this app implements a PostgreSQL database and is deployed on Heroku.
 
 # Check it out live!
 Link
