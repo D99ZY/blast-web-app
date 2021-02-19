@@ -1,1 +1,1 @@
-web: gunicorn blast.wsgi:application --log-file -
+web: gunicorn blast.wsgi --log-file -
