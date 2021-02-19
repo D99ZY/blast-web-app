@@ -27,7 +27,7 @@ SECRET_KEY = config('APP_SECRET_KEY', default='unsafe-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='[]')
+ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS').split()
 
 
 # Application definition
