@@ -19,4 +19,6 @@ Once the party host has created a room, just ask for the room code. Join the roo
 
 
 # Check it out live!
-Link
+
+https://blast-web-app.herokuapp.com
+
