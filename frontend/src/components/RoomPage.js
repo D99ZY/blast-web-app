@@ -111,6 +111,11 @@ export default class RoomPage extends Component {
                 width: '80vw',
             }
         }
+        else if (screenWidth < 1200) {
+            cardStyle = {
+                width: '60vw',
+            }
+        }
         else {
             cardStyle = {
                 width: '30vw',
@@ -167,9 +172,24 @@ export default class RoomPage extends Component {
 
         let cardStyle;
 
-        if (screenWidth < 960) {
+        if (screenWidth < 550) {
+            cardStyle = {
+                width: '95vw',
+            }
+        }
+        else if (screenWidth < 960) {
             cardStyle = {
                 width: '90vw',
+            }
+        }
+        else if (screenWidth < 1200) {
+            cardStyle = {
+                width: '70vw',
+            }
+        }
+        else if (screenWidth < 1500) {
+            cardStyle = {
+                width: '60vw',
             }
         }
         else {

@@ -5,6 +5,7 @@ import {
     Card,
     IconButton,
     LinearProgress,
+    Box,
 } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from "@material-ui/icons/Pause";
@@ -45,10 +46,33 @@ export default class MusicPlayer extends Component {
         var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
         let cardStyle;
+        let xsValue1 = 4;
+        let xsValue2 = 8;
+        let size = "100%";
+        let imgMT = 0;
 
-        if (screenWidth < 960) {
+        if (screenWidth < 550) {
             cardStyle = {
                 width: '80vw',
+            }
+            xsValue1 = 12;
+            xsValue2 = 12;
+            size = "75%";
+            imgMT = 1;
+        }
+        else if (screenWidth < 960) {
+            cardStyle = {
+                width: '70vw',
+            }
+        }
+        else if (screenWidth < 1200) {
+            cardStyle = {
+                width: '60vw',
+            }
+        }
+        else if (screenWidth < 1500) {
+            cardStyle = {
+                width: '50vw',
             }
         }
         else {
@@ -62,11 +86,13 @@ export default class MusicPlayer extends Component {
             <Card style={cardStyle} variant="outlined">
                 <Grid container alignItems="center">
 
-                    <Grid item align="center" xs={4}>
-                        <img src={"/static/images/no_song.png"} height="100%" width="100%" />
+                    <Grid item align="center" xs={xsValue1}>
+                        <Box mt={imgMT}>
+                            <img src={"/static/images/no_song.png"} height={size} width={size} />
+                        </Box>
                     </Grid>
 
-                    <Grid item align="center" xs={8}>
+                    <Grid item align="center" xs={xsValue2}>
 
                         <Typography component="h5" varient="h5">
                             {"No Song Selected"}
@@ -108,10 +134,33 @@ export default class MusicPlayer extends Component {
         var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
         let cardStyle;
+        let xsValue1 = 4;
+        let xsValue2 = 8;
+        let size = "100%";
+        let imgMT = 0;
 
-        if (screenWidth < 960) {
+        if (screenWidth < 550) {
             cardStyle = {
                 width: '80vw',
+            }
+            xsValue1 = 12;
+            xsValue2 = 12;
+            size = "75%";
+            imgMT = 1;
+        }
+        else if (screenWidth < 960) {
+            cardStyle = {
+                width: '70vw',
+            }
+        }
+        else if (screenWidth < 1200) {
+            cardStyle = {
+                width: '60vw',
+            }
+        }
+        else if (screenWidth < 1500) {
+            cardStyle = {
+                width: '50vw',
             }
         }
         else {
@@ -124,11 +173,13 @@ export default class MusicPlayer extends Component {
             <Card style={cardStyle} variant="outlined">
                 <Grid container alignItems="center">
 
-                    <Grid item align="center" xs={4}>
-                        <img src={this.props.image_url} height="100%" width="100%" />
+                    <Grid item align="center" xs={xsValue1}>
+                        <Box mt={imgMT}>
+                            <img src={this.props.image_url} height={size} width={size} />
+                        </Box>
                     </Grid>
 
-                    <Grid item align="center" xs={8}>
+                    <Grid item align="center" xs={xsValue2}>
 
                         <Typography component="h5" varient="h5">
                             {this.props.title}
