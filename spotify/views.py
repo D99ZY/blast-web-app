@@ -199,12 +199,48 @@ class SkipSong(APIView):
         votes = Vote.objects.filter(room=room, song_id=room.current_song)
         votes_needed = room.votes_to_skip
         
-        # If user is host or number of votes reaches votes to skip
-        if self.request.session.session_key == room.host or len(votes) + 1 >= votes_needed:
+        # If user is host, skip song
+        if self.request.session.session_key == room.host:
             votes.delete()
             skip_song(room.host)
+        # Else if non host user votes more than once, do nothing
+        elif Vote.objects.filter(user=self.request.session.session_key):
+            pass
+        # Else add new vote
         else:
             vote = Vote(user=self.request.session.session_key, room=room, song_id=room.current_song)
             vote.save()
+        
+        # If votes exceeds votes required, skip song
+        if len(votes) >= votes_needed:
+            votes.delete()
+            skip_song(room.host)
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+
+class CheckSkipOnUpdate(APIView):
+    def post(self, request, format=None):
+
+        # If session key does not exist
+        if not self.request.session.exists(self.request.session.session_key):
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
+        
+        room_code = self.request.session.get('room_code')
+        room = Room.objects.filter(code=room_code)
+
+        # If queryset room exists
+        if room.exists():
+            room = room[0]
+        else:
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
+
+        votes = Vote.objects.filter(room=room, song_id=room.current_song)
+        votes_needed = room.votes_to_skip
+        
+        # If votes exceeds votes required, skip song
+        if len(votes) >= votes_needed:
+            votes.delete()
+            skip_song(room.host)
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)

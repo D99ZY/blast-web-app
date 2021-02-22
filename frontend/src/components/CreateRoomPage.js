@@ -59,7 +59,8 @@ export default class CreateRoomPage extends Component {
     }
 
     handleUpdateRoomButtonPressed = () => {
-        const requestOptions = {
+        
+        const requestOptions1 = {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -69,7 +70,12 @@ export default class CreateRoomPage extends Component {
             }),
         };
 
-        fetch('/api/update-room', requestOptions)
+        const requestOptions2 = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+        };
+
+        fetch('/api/update-room', requestOptions1)
             .then((response) => {
                 if (response.ok) {
                     this.setState({
@@ -82,8 +88,10 @@ export default class CreateRoomPage extends Component {
                     });
                 }
                 this.props.updateCallback();
-            });
+            }).then(() => fetch('/spotify/check-skip', requestOptions2));
+        
     }
+
 
     renderCreateButtons() {
         return (
