@@ -30,10 +30,14 @@ export default function Info(props) {
                 width: '80vw',
             }
         }
+        else if (screenWidth < 1200) {
+            cardStyle = {
+                width: '65vw',
+            }
+        }
         else {
             cardStyle = {
                 width: '50vw',
-                height: "60vh",
             }
         }
 
@@ -107,10 +111,14 @@ export default function Info(props) {
                 width: '80vw',
             }
         }
+        else if (screenWidth < 1200) {
+            cardStyle = {
+                width: '65vw',
+            }
+        }
         else {
             cardStyle = {
                 width: '50vw',
-                height: "60vh",
             }
         }
 
@@ -195,10 +203,14 @@ export default function Info(props) {
                 width: '80vw',
             }
         }
+        else if (screenWidth < 1200) {
+            cardStyle = {
+                width: '65vw',
+            }
+        }
         else {
             cardStyle = {
                 width: '50vw',
-                height: "60vh",
             }
         }
 
